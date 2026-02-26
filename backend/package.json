@@ -1,0 +1,31 @@
+{
+  "name": "devsync-backend",
+  "version": "1.0.0",
+  "description": "GitHub commit to social media content generator",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "github",
+    "webhook",
+    "ai",
+    "social-media",
+    "gemini"
+  ],
+  "author": "Mohammed Tousif",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@prisma/adapter-pg": "^7.4.1",
+    "@prisma/client": "^7.4.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "postgres": "^3.4.8",
+    "prisma": "^7.4.1"
+  }
+}

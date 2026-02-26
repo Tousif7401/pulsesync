@@ -1,0 +1,27 @@
+{
+  "ref": "refs/heads/main",
+  "repository": {
+    "id": 123456789,
+    "name": "my-awesome-project",
+    "full_name": "developer/my-awesome-project",
+    "private": false,
+    "html_url": "https://github.com/developer/my-awesome-project"
+  },
+  "pusher": {
+    "name": "developer",
+    "email": "developer@example.com"
+  },
+  "commits": [
+    {
+      "id": "abc123def456",
+      "message": "feature: added user authentication with OAuth2",
+      "timestamp": "2024-02-21T10:30:00Z",
+      "url": "https://github.com/developer/my-awesome-project/commit/abc123def456",
+      "author": {
+        "name": "Developer",
+        "email": "developer@example.com",
+        "username": "developer"
+      }
+    }
+  ]
+}

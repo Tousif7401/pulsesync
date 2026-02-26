@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Post {
+  id               String    @id @default(uuid())
+  commitMessage    String    @map("commit_message")
+  commitId         String?   @map("commit_id")
+  commitUrl        String?   @map("commit_url")
+  authorName       String?   @map("author_name")
+  authorEmail      String?   @map("author_email")
+  repository       String?   @db.VarChar(255)
+  commitType       String?   @map("commit_type") @db.VarChar(50)
+
+  // Generated content
+  linkedinPost     String?   @map("linkedin_post")
+  twitterPost      String?   @map("twitter_post")
+  instagramPost    String?   @map("instagram_post")
+  hashtags         String[]
+
+  // Metadata
+  generatedAt      DateTime  @map("generated_at") @default(now())
+  createdAt        DateTime  @map("created_at") @default(now())
+
+  // Status
+  isPublished      Boolean   @map("is_published") @default(false)
+  platformPublished String[]  @map("platform_published")
+
+  @@map("posts")
+}
