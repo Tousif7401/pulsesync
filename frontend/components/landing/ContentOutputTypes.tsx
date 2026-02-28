@@ -45,14 +45,14 @@ export default function ContentOutputTypes() {
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
         >
           {/* Left Side - Display Cards inside Browser */}
           <motion.div
             initial={{ x: -30, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ delay: 0.2 }}
             className="flex items-center justify-center"
           >
@@ -65,7 +65,7 @@ export default function ContentOutputTypes() {
           <motion.div
             initial={{ x: 30, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ delay: 0.3 }}
             className="space-y-8"
           >

@@ -104,7 +104,7 @@ export default function WorkflowSteps() {
                   key={step.number}
                   initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: '-100px' }}
+                  viewport={{ margin: '-100px' }}
                   transition={{ delay: index * 0.15 }}
                   className={`relative flex items-center ${
                     index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'

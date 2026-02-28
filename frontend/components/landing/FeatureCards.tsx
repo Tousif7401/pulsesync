@@ -116,10 +116,10 @@ export default function FeatureCards() {
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-draftrPurple mb-4 font-heading">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
             Powerful Features
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -132,7 +132,7 @@ export default function FeatureCards() {
           <motion.div
             initial={{ x: -30, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ delay: 0.2 }}
             className="space-y-6"
           >
@@ -165,7 +165,7 @@ export default function FeatureCards() {
           <motion.div
             initial={{ x: 30, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ delay: 0.3 }}
             className="flex justify-center items-center"
           >

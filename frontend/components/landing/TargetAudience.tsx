@@ -57,10 +57,10 @@ export default function TargetAudience() {
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-draftrPurple mb-4 font-heading">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
             The perfect content solution for every developer
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
@@ -74,7 +74,7 @@ export default function TargetAudience() {
               key={audience.title}
               initial={{ y: 40, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ delay: index * 0.05 }}
               whileHover={{ y: -8 }}
             >
@@ -84,7 +84,7 @@ export default function TargetAudience() {
                 className="w-full h-auto"
               >
                 <div className="flex flex-col h-full p-8">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-draftrPurple/20 to-[#8771ff]/20 flex items-center justify-center text-draftrPurple mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-white mb-6">
                     <audience.icon className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 font-heading">{audience.title}</h3>

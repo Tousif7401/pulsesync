@@ -101,10 +101,10 @@ export default function FeatureSplit() {
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-draftrPurple mb-4 font-heading">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
             Powerful Features
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -125,7 +125,7 @@ export default function FeatureSplit() {
                   key={feature.id}
                   initial={{ x: -30, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => setActiveFeature(feature)}
                   className={`p-5 rounded-xl border cursor-pointer transition-all duration-300 ${

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Zap, Github, Code2, Sparkles, Loader2 } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { Check, Zap, Github, Code2, Sparkles, Loader2, RotateCcw } from 'lucide-react';
 
 interface Commit {
   id: string;
@@ -65,16 +65,39 @@ export default function CommitProcessor() {
     PROCESSING_STEPS.map(step => ({ ...step, status: 'pending' as const }))
   );
   const [isProcessing, setIsProcessing] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
-  useEffect(() => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, amount: 0.3 });
+
+  const initializeAndStart = () => {
     const initializedCommits = MOCK_COMMITS.map((commit, index) => ({
       ...commit,
       id: `${index}-${Date.now()}`,
       status: 'pending' as const
     }));
     setCommits(initializedCommits);
+    setCurrentCommitIndex(0);
+    setProcessingSteps(PROCESSING_STEPS.map(step => ({ ...step, status: 'pending' as const })));
+    setHasStarted(true);
     startProcessing(initializedCommits);
-  }, []);
+  };
+
+  const reset = () => {
+    setCommits([]);
+    setCurrentCommitIndex(0);
+    setProcessingSteps(PROCESSING_STEPS.map(step => ({ ...step, status: 'pending' as const })));
+    setIsProcessing(false);
+    setHasStarted(false);
+  };
+
+  useEffect(() => {
+    if (isInView && !hasStarted && !isProcessing) {
+      initializeAndStart();
+    } else if (!isInView && hasStarted) {
+      reset();
+    }
+  }, [isInView]);
 
   const startProcessing = async (commitList: Commit[]) => {
     setIsProcessing(true);
@@ -112,8 +135,13 @@ export default function CommitProcessor() {
 
   const currentCommit = commits[currentCommitIndex];
 
+  const handleReplay = () => {
+    reset();
+    setTimeout(() => initializeAndStart(), 100);
+  };
+
   return (
-    <div className="bg-[#0a0a0a] rounded-2xl border border-white/10 overflow-hidden min-h-[550px]">
+    <div ref={ref} className="bg-[#0a0a0a] rounded-2xl border border-white/10 overflow-hidden min-h-[550px]">
       {/* Header */}
       <div className="px-6 py-5 border-b border-white/10">
         <div className="flex items-center justify-between">
@@ -348,8 +376,20 @@ export default function CommitProcessor() {
               </span>
             </div>
           </div>
-          <div className="text-gray-600 text-xs">
-            DevSync AI
+          <div className="flex items-center gap-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleReplay}
+              disabled={isProcessing}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span className="font-medium">Replay</span>
+            </motion.button>
+            <div className="text-gray-600 text-xs">
+              DevSync AI
+            </div>
           </div>
         </div>
       </div>

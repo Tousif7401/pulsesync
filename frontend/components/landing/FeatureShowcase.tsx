@@ -83,7 +83,7 @@ const AnalyticsDemo = () => {
             key={stats.reach}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-green-400 font-medium"
+            className="text-white font-medium"
           >
             {stats.reach.toFixed(0)}K
           </motion.span>
@@ -193,11 +193,11 @@ const PrivacyDemo = () => {
           transition={{ duration: 0.3 }}
           className="w-24 h-24 rounded-2xl bg-gradient-to-br from-green-400/20 to-emerald-500/20 border border-green-400/30 flex items-center justify-center"
         >
-          <Lock className="w-12 h-12 text-green-400" />
+          <Lock className="w-12 h-12 text-white" />
         </motion.div>
         <div className="text-center">
           <div className="text-white font-medium mb-2">Your Code</div>
-          <div className="flex items-center gap-2 text-green-400 text-sm">
+          <div className="flex items-center gap-2 text-white text-sm">
             <motion.div
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 1.5, repeat: Infinity }}
@@ -331,7 +331,7 @@ const HistoryDemo = () => {
               <span className={`text-sm ${index === selectedPost ? 'text-white' : 'text-gray-500'}`}>
                 {post.title}
               </span>
-              <span className={`text-xs ${post.status === 'high' ? 'text-green-400' : 'text-yellow-400'}`}>
+              <span className={`text-xs ${post.status === 'high' ? 'text-white' : 'text-white'}`}>
                 {post.engagement}
               </span>
             </div>
@@ -382,7 +382,7 @@ const GitHubDemo = () => {
         </motion.div>
         <div className="text-center">
           <div className="text-white font-medium mb-2">GitHub Connected</div>
-          <div className={`flex items-center gap-2 text-sm ${connected ? 'text-green-400' : 'text-yellow-400'}`}>
+          <div className={`flex items-center gap-2 text-sm ${connected ? 'text-white' : 'text-white'}`}>
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1, repeat: Infinity }}
@@ -491,10 +491,10 @@ export default function FeatureShowcase() {
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-draftrPurple mb-4 font-heading">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
             Powerful Features
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -512,7 +512,7 @@ export default function FeatureShowcase() {
               key={feature.id}
               initial={{ y: 50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, margin: '-100px' }}
+              viewport={{ margin: '-100px' }}
               transition={{ delay: index * 0.1 }}
               className={`mb-32 last:mb-0`}
             >
@@ -522,7 +522,7 @@ export default function FeatureShowcase() {
                   <motion.div
                     initial={{ x: isEven ? -30 : 30, opacity: 0 }}
                     whileInView={{ x: 0, opacity: 1 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false }}
                     transition={{ delay: 0.2 }}
                     className="space-y-8"
                   >
@@ -565,7 +565,7 @@ export default function FeatureShowcase() {
                   <motion.div
                     initial={{ x: isEven ? 30 : -30, opacity: 0 }}
                     whileInView={{ x: 0, opacity: 1 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false }}
                     transition={{ delay: 0.3 }}
                   >
                     {feature.demo}

@@ -261,3 +261,13 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* Float animation for animated shader background */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

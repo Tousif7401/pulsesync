@@ -1,20 +1,21 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import AIInput from '@/components/landing/AIInput';
-import Antigravity from '@/components/landing/Antigravity';
 import CommitProcessor from '@/components/landing/CommitProcessor';
 import ContentOutputTypes from '@/components/landing/ContentOutputTypes';
 import FeatureCards from '@/components/landing/FeatureCards';
 import WorkflowSteps from '@/components/landing/WorkflowSteps';
-import IntegrationsWithQuote from '@/components/landing/IntegrationsWithQuote';
-import FeatureGrid from '@/components/landing/FeatureGrid';
-import TargetAudience from '@/components/landing/TargetAudience';
-import StackFeatureSection from '@/components/ui/stack-feature-section';
 import Safari_01 from '@/components/ui/safari-01';
-import ProceduralGroundBackground from '@/components/ui/procedural-ground-background';
-import { ArrowRight, Check, Github, Linkedin, Instagram, Zap, Shield, Clock, TrendingUp } from 'lucide-react';
+import AnoAI from '@/components/ui/animated-shader-background';
+import { Tiles } from '@/components/ui/tiles';
+import { Navbar, NavBody, NavItems, MobileNav, NavbarLogo, NavbarButton, MobileNavHeader, MobileNavToggle, MobileNavMenu } from '@/components/ui/resizable-navbar';
+import { Button } from '@/components/ui/neon-button';
+import { ArrowRight, Check, Github, Linkedin, Zap, Shield, Clock, TrendingUp } from 'lucide-react';
+import LogoLoop from '@/components/ui/LogoLoop';
+import Image from 'next/image';
+import { SocialIcon } from 'react-social-icons';
 
 // X (Twitter) icon component
 function XIcon({ className }: { className?: string }) {
@@ -25,53 +26,44 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
-// Fade + Slide animation wrapper
-const ScrollReveal = ({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) => {
-  const ref = useRef(null);
+// Vercel icon component
+function VercelIcon({ className }: { className?: string }) {
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{
-        duration: 0.7,
-        delay,
-        ease: [0.16, 1, 0.3, 1]
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
+    <svg className={className} viewBox="0 0 24 24" fill="white">
+      <path d="M12 2L2 22h20L12 2z" />
+    </svg>
   );
-};
+}
 
-// Staggered animation for grids
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const staggerItem = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0 }
-};
+// Gemini icon component
+function GeminiIcon({ className }: { className?: string }) {
+  return (
+    <Image
+      src="/GEMINI.webp"
+      alt="Gemini"
+      width={32}
+      height={32}
+      className={className}
+    />
+  );
+}
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { name: 'Product', link: '#features' },
+    { name: 'How it works', link: '#how-it-works' },
+    { name: 'Pricing', link: '#pricing' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -84,82 +76,71 @@ export default function Home() {
         className="min-h-screen overflow-hidden bg-darkBg"
       >
         {/* Navigation */}
-        <nav className={`fixed left-0 right-0 z-50 flex items-center px-6 md:px-12 py-4 w-full transition-all duration-300 ${isScrolled ? 'top-0 bg-darkBg/90 backdrop-blur-xl border-b border-white/5' : 'top-0'}`}>
-          <motion.div
-            initial={{ x: -60, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center gap-2 flex-shrink-0"
-          >
-            <span className="text-xl font-bold text-white tracking-tight font-heading">
-              DevSync AI
-            </span>
-          </motion.div>
+        <Navbar>
+          {/* Desktop Navigation */}
+          <NavBody className={isScrolled ? 'bg-darkBg/90 backdrop-blur-xl border-b border-white/5' : ''}>
+            <NavItems items={navItems} />
+            <NavbarLogo />
+            <div className="flex items-center gap-4">
+              <NavbarButton variant="secondary">Login</NavbarButton>
+              <Button variant="solid" size="default" className="!py-3 !px-6 !text-base">Request for Demo</Button>
+            </div>
+          </NavBody>
 
-          <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="hidden md:flex items-center justify-center gap-10 flex-1"
-          >
-            {['Product', 'How it works', 'Pricing'].map((item, index) => (
-              <motion.a
-                key={item}
-                href="#"
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.35 + index * 0.08, duration: 0.4 }}
-                className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
-              >
-                {item}
-              </motion.a>
-            ))}
-          </motion.div>
+          {/* Mobile Navigation */}
+          <MobileNav>
+            <MobileNavHeader>
+              <NavbarLogo />
+              <MobileNavToggle
+                isOpen={isMobileMenuOpen}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              />
+            </MobileNavHeader>
 
-          <motion.div
-            initial={{ x: 60, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="flex items-center gap-4"
-          >
-            <motion.button
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.4 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-6 py-2.5 bg-white text-black rounded-full text-sm font-semibold hover:bg-gray-100 transition-colors"
+            <MobileNavMenu
+              isOpen={isMobileMenuOpen}
+              onClose={() => setIsMobileMenuOpen(false)}
             >
-              Request for Demo
-            </motion.button>
-          </motion.div>
-        </nav>
+              {navItems.map((item, idx) => (
+                <a
+                  key={`mobile-link-${idx}`}
+                  href={item.link}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="relative text-gray-400 hover:text-white text-xl font-medium font-heading py-2 block"
+                >
+                  {item.name}
+                </a>
+              ))}
+              <div className="flex w-full flex-col gap-4 pt-4">
+                <NavbarButton
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  variant="secondary"
+                  className="w-full"
+                >
+                  Login
+                </NavbarButton>
+                <NavbarButton
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  variant="primary"
+                  className="w-full"
+                >
+                  Request for Demo
+                </NavbarButton>
+              </div>
+            </MobileNavMenu>
+          </MobileNav>
+        </Navbar>
 
         {/* Hero Section */}
         <section className="relative z-10 min-h-screen flex items-center justify-center px-8 pt-24">
-          {/* WebGL Procedural Background - FOR TESTING: Can be removed if not liked */}
-          <ProceduralGroundBackground />
+          {/* Animated Shader Background */}
+          <div className="absolute inset-0 -z-10">
+            <AnoAI />
+          </div>
 
-          <div className="absolute inset-0 overflow-hidden" style={{ pointerEvents: 'none', backgroundColor: '#101011' }}>
-            <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-              <Antigravity
-                count={210}
-                magnetRadius={10}
-                ringRadius={14}
-                waveSpeed={0.10}
-                waveAmplitude={0.60}
-                particleSize={0.50}
-                lerpSpeed={0.03}
-                color="#7B61FF"
-                autoAnimate={true}
-                particleVariance={0.10}
-                rotationSpeed={0}
-                depthFactor={0.50}
-                pulseSpeed={0.50}
-                particleShape="capsule"
-                fieldStrength={30}
-              />
-            </div>
+          {/* Tiles Grid Effect */}
+          <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none opacity-30">
+            <Tiles rows={50} cols={8} tileSize="md" />
           </div>
 
           <div className="max-w-6xl mx-auto relative">
@@ -179,9 +160,9 @@ export default function Home() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
-                  className="w-2 h-2 rounded-full bg-draftrPurple animate-pulse"
+                  className="w-2 h-2 rounded-full bg-white animate-pulse"
                 />
-                <span className="text-draftrPurple text-sm font-medium">Now in Public Beta</span>
+                <span className="text-white text-sm font-medium">Now in Public Beta</span>
               </motion.div>
 
               <motion.h1
@@ -216,104 +197,62 @@ export default function Home() {
                 transition={{ delay: 1.1, duration: 0.5 }}
                 className="flex items-center justify-center gap-4"
               >
-                <motion.button
+                <motion.div
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 1.2, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-8 py-4 bg-white text-black rounded-full font-semibold flex items-center gap-2 hover:bg-gray-100 transition-colors shadow-lg shadow-white/10"
                 >
-                  View Services
-                  <ArrowRight className="w-4 h-4" />
-                </motion.button>
-                <motion.button
+                  <Button variant="solid" size="lg" className="flex items-center gap-2">
+                    Book a Demo
+                    <ArrowRight className="w-4 h-4 -rotate-45" />
+                  </Button>
+                </motion.div>
+                <motion.div
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 1.3, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-8 py-4 text-white font-medium flex items-center gap-2 hover:text-draftrPurple transition-colors border border-gray-400/30 rounded-full hover:bg-white/5"
                 >
-                  Book a Demo
-                </motion.button>
+                  <Button variant="hollow" size="lg" className="flex items-center gap-2">
+                    View Services
+                  </Button>
+                </motion.div>
               </motion.div>
             </motion.div>
           </div>
         </section>
 
-        {/* Integrations Section - Stack Feature Animation */}
-        <StackFeatureSection />
-
-        {/* The ultimate toolkit section */}
-        <section className="relative z-10 py-24 px-8">
+        {/* Integrations Section */}
+        <section className="relative z-10 py-20 px-8">
           <div className="max-w-5xl mx-auto text-center">
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-heading">
-                The ultimate toolkit for developers & teams
-              </h2>
-              <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-                Everything you need to create, share, and grow your personal brand—all in a single, easy-to-use platform.
-              </p>
-            </motion.div>
+            <p className="text-gray-400 text-lg mb-12">Integrated with your favorite platforms</p>
+            <div className="flex justify-center">
+              <LogoLoop
+                logos={[
+                  { node: <SocialIcon url="https://github.com" style={{ height: 40, width: 40 }} />, title: "GitHub" },
+                  { node: <SocialIcon url="https://twitter.com" style={{ height: 40, width: 40 }} />, title: "X" },
+                  { node: <SocialIcon url="https://linkedin.com" style={{ height: 40, width: 40 }} />, title: "LinkedIn" },
+                  { node: <SocialIcon url="https://instagram.com" style={{ height: 40, width: 40 }} />, title: "Instagram" },
+                  { node: <GeminiIcon className="w-10 h-10" />, title: "Gemini" },
+                  { node: <VercelIcon className="w-10 h-10 text-white" />, title: "Vercel" },
+                ]}
+                speed={50}
+                direction="left"
+                logoHeight={44}
+                gap={56}
+                fadeOut={true}
+                scaleOnHover={true}
+                fadeOutColor="#ffffff"
+              />
+            </div>
           </div>
         </section>
 
         {/* Workflow Steps - 01, 02, 03 */}
         <WorkflowSteps />
-
-        {/* Integrations with CEO Quote */}
-        <IntegrationsWithQuote />
-
-        {/* Feature Grid - Power up your workflow */}
-        <FeatureGrid />
-
-        {/* Core Positioning - "What DevSync AI Delivers" */}
-        <section className="relative z-10 py-32 px-8">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-heading">
-                What DevSync AI Delivers
-              </h2>
-              <p className="text-2xl text-gray-300 mb-4 font-heading">
-                The AI Content Engine for Developers
-              </p>
-              <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-                Stop managing content creation manually. DevSync AI bridges the gap between your code and your audience—turning every commit into an opportunity to build your personal brand, automatically.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
-            >
-              <div className="p-6">
-                <div className="text-5xl font-bold text-white mb-2 font-heading">10x</div>
-                <p className="text-gray-400">Faster content creation</p>
-              </div>
-              <div className="p-6">
-                <div className="text-5xl font-bold text-white mb-2 font-heading">Zero</div>
-                <p className="text-gray-400">Manual effort required</p>
-              </div>
-              <div className="p-6">
-                <div className="text-5xl font-bold text-white mb-2 font-heading">100%</div>
-                <p className="text-gray-400">Focus on coding</p>
-              </div>
-            </motion.div>
-          </div>
-        </section>
 
         {/* Feature Cards - CardSwap Animation */}
         <FeatureCards />
@@ -327,13 +266,13 @@ export default function Home() {
             <motion.div
               initial={{ y: 30, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               className="text-center mb-16"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-heading">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-heading">
                 Watch DevSync AI in Action
               </h2>
-              <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              <p className="text-xl text-white max-w-2xl mx-auto">
                 See how your commits are transformed into engaging social content—automatically.
               </p>
             </motion.div>
@@ -341,74 +280,14 @@ export default function Home() {
             <motion.div
               initial={{ y: 30, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ delay: 0.2 }}
               className="flex justify-center"
             >
-              <Safari_01 contentPadding="pt-8" minHeight="min-h-[650px]" minWidth="min-w-[1000px]">
+              <Safari_01 contentPadding="pt-8" minHeight="min-h-[655px]" minWidth="min-w-[1000px]">
                 <CommitProcessor />
               </Safari_01>
             </motion.div>
-          </div>
-        </section>
-
-        {/* Target Audience - Perfect for every workflow */}
-        <TargetAudience />
-
-        {/* Feature Deep-Dive - Contextual Understanding */}
-        <section className="relative z-10 py-32 px-8">
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              className="mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-heading">
-                Code-Aware Content Generation
-              </h2>
-              <p className="text-2xl text-white mb-4 font-heading">
-                Your commits have context. We capture it.
-              </p>
-              <p className="text-xl text-gray-400 max-w-3xl leading-relaxed">
-                DevSync AI understands what you're building. Every commit message, branch name, and PR description helps us tell your story—no generic templates, no context lost.
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                {
-                  icon: <Github className="w-6 h-6" />,
-                  title: 'Commit Intelligence',
-                  description: 'Analyzes your commit messages to understand the technical context and generate relevant social content.',
-                },
-                {
-                  icon: <Zap className="w-6 h-6" />,
-                  title: 'Instant Generation',
-                  description: 'Posts are ready for review within seconds of your push. No waiting, no delays.',
-                },
-                {
-                  icon: <Shield className="w-6 h-6" />,
-                  title: 'Privacy Protected',
-                  description: 'We only read commit metadata. Your actual code never leaves your repository.',
-                },
-              ].map((feature, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ y: 30, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="bg-white/5 rounded-2xl p-8 border border-white/5 hover:border-draftrPurple/50 transition-all"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-draftrPurple flex items-center justify-center mb-6 text-white">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3 font-heading">{feature.title}</h3>
-                  <p className="text-gray-400 leading-relaxed">{feature.description}</p>
-                </motion.div>
-              ))}
-            </div>
           </div>
         </section>
 
@@ -418,13 +297,13 @@ export default function Home() {
             <motion.div
               initial={{ y: 30, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               className="text-center mb-20"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-heading">
                 DevSync AI Results
               </h2>
-              <p className="text-xl text-gray-400">
+              <p className="text-xl text-white">
                 Transform your development workflow into a content engine
               </p>
             </motion.div>
@@ -456,17 +335,17 @@ export default function Home() {
                   key={index}
                   initial={{ y: 30, opacity: 0 }}
                   whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white/5 rounded-2xl p-8 border border-white/5 hover:border-draftrPurple/50 transition-all"
+                  className="rounded-2xl p-8 border border-white/5 hover:border-[#4c3bcf]/30 transition-all bg-gradient-to-br from-[#4c3bcf]/10 to-[#0a0a0a] shadow-[0_0_40px_rgba(76,59,207,0.1)]"
                 >
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-10 h-10 rounded-lg bg-[#7B61FF]/20 flex items-center justify-center shrink-0">
-                      <span className="text-[#7B61FF]">{benefit.icon}</span>
+                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                      <span className="text-white">{benefit.icon}</span>
                     </div>
-                    <h3 className="text-xl font-bold text-draftrPurple font-heading">{benefit.title}</h3>
+                    <h3 className="text-xl font-bold text-white font-heading">{benefit.title}</h3>
                   </div>
-                  <p className="text-gray-400 leading-relaxed">{benefit.description}</p>
+                  <p className="text-white leading-relaxed">{benefit.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -479,13 +358,13 @@ export default function Home() {
             <motion.div
               initial={{ y: 30, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
                 Got Questions?
               </h2>
-              <p className="text-xl text-gray-400">
+              <p className="text-xl text-white">
                 Quick answers about DevSync AI
               </p>
             </motion.div>
@@ -517,7 +396,7 @@ export default function Home() {
                   key={index}
                   initial={{ y: 20, opacity: 0 }}
                   whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ delay: index * 0.05 }}
                   className="group bg-[#111111] rounded-2xl border border-white/5 hover:border-draftrPurple/30 transition-all"
                 >
@@ -528,7 +407,7 @@ export default function Home() {
                     </svg>
                   </summary>
                   <div className="px-6 pb-6">
-                    <p className="text-gray-400 leading-relaxed">{faq.a}</p>
+                    <p className="text-white leading-relaxed">{faq.a}</p>
                   </div>
                 </motion.details>
               ))}
@@ -538,7 +417,7 @@ export default function Home() {
             <motion.div
               initial={{ y: 30, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ delay: 0.3 }}
               className="mt-12"
             >
@@ -552,7 +431,7 @@ export default function Home() {
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             className="max-w-4xl mx-auto text-center"
           >
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 font-heading">
@@ -562,21 +441,23 @@ export default function Home() {
               Join thousands of developers building their brand while they code. Start your free trial today.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <motion.button
+              <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-8 py-4 bg-white text-black rounded-full font-semibold flex items-center gap-2 hover:bg-gray-100 transition-colors"
               >
-                Start Free Trial
-                <ArrowRight className="w-4 h-4" />
-              </motion.button>
-              <motion.button
+                <Button variant="solid" size="lg" className="flex items-center gap-2">
+                  Start Free Trial
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </motion.div>
+              <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="px-8 py-4 text-white font-medium flex items-center gap-2 hover:text-gray-300 transition-colors"
               >
-                <Github className="w-5 h-5" />
-                Connect GitHub
-              </motion.button>
+                <Button variant="ghost" size="lg" className="flex items-center gap-2">
+                  <Github className="w-5 h-5" />
+                  Connect GitHub
+                </Button>
+              </motion.div>
             </div>
           </motion.div>
         </section>
@@ -587,13 +468,13 @@ export default function Home() {
             <motion.div
               initial={{ y: 30, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
                 Simple Pricing
               </h2>
-              <p className="text-xl text-gray-400">
+              <p className="text-xl text-white">
                 Start free, scale when ready
               </p>
             </motion.div>
@@ -602,54 +483,50 @@ export default function Home() {
               <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ delay: 0.1 }}
                 className="bg-[#111111] rounded-3xl p-8 border border-white/5 hover:border-draftrPurple/30 transition-all"
               >
                 <h3 className="text-xl font-bold text-white mb-2 font-heading">Free</h3>
                 <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-bold text-draftrPurple">$0</span>
+                  <span className="text-4xl font-bold text-white">$0</span>
                   <span className="text-gray-300">/month</span>
                 </div>
                 <ul className="space-y-4 mb-8">
                   {['1 repository', '30 posts/month', 'Basic AI', 'Community support'].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-gray-400">
-                      <Check className="w-5 h-5 text-green-400 shrink-0" />
+                    <li key={item} className="flex items-center gap-3 text-white">
+                      <Check className="w-5 h-5 text-white shrink-0" />
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
-                <button className="w-full py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/15 transition-colors">
-                  Request for Demo
-                </button>
+                <Button variant="ghost" className="w-full py-3 rounded-xl">Request for Demo</Button>
               </motion.div>
 
               <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ delay: 0.2 }}
-                className="relative bg-white/5 rounded-3xl p-8 border border-punchRed-500/30 hover:border-punchRed-500 transition-all"
+                className="relative bg-white/5 rounded-3xl p-8 border border-white/10 hover:border-white/20 transition-all"
               >
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-draftrPurple text-white text-xs font-semibold px-3 py-1 rounded-full">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-black text-xs font-semibold px-3 py-1 rounded-full">
                   POPULAR
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2 font-heading">Pro</h3>
                 <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-bold text-draftrPurple">$19</span>
+                  <span className="text-4xl font-bold text-white">$19</span>
                   <span className="text-gray-300">/month</span>
                 </div>
                 <ul className="space-y-4 mb-8">
                   {['Unlimited repos', 'Unlimited posts', 'Advanced AI', 'Custom prompts', 'Priority support'].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-gray-300">
-                      <Check className="w-5 h-5 text-draftrPurple shrink-0" />
+                    <li key={item} className="flex items-center gap-3 text-white">
+                      <Check className="w-5 h-5 text-white shrink-0" />
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
-                <button className="w-full py-3 bg-draftrPurple text-white rounded-xl font-medium hover:shadow-lg transition-all">
-                  Start Free Trial
-                </button>
+                <Button variant="solid" className="w-full py-3 rounded-xl">Start Free Trial</Button>
               </motion.div>
             </div>
           </div>
@@ -662,7 +539,7 @@ export default function Home() {
               {/* Brand */}
               <div className="md:col-span-1">
                 <h3 className="text-xl font-bold text-white mb-4 font-heading">DevSync AI</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-white text-sm leading-relaxed">
                   Turn your GitHub commits into engaging social content—automatically.
                 </p>
               </div>

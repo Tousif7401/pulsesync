@@ -51,20 +51,25 @@ export default function StackFeatureSection() {
   const iconsPerOrbit = Math.ceil(iconConfigs.length / orbitCount);
 
   return (
-    <div className="relative max-w-6xl mx-auto my-32 pl-10">
-      <section className="flex items-center justify-between h-[30rem] border border-white/10 overflow-hidden rounded-3xl shadow-2xl bg-black" style={{ backgroundColor: '#000000 !important', background: '#000000' }}>
-      {/* Left side: Heading and Text */}
-      <div className="w-1/2 z-10 pr-8">
-        <h1 className="text-4xl sm:text-6xl font-bold mb-4 text-white">
-          Build your brand
-        </h1>
-        <p className="text-gray-400 mb-6 max-w-lg">
-          DevSync AI seamlessly integrates with your development workflow. Connect your repositories and let every commit become engaging content.
-        </p>
-      </div>
+    <div className="relative max-w-6xl mx-auto my-32">
+      <section className="relative flex items-center justify-between h-[30rem] border border-white/30 overflow-hidden rounded-3xl shadow-2xl">
+        {/* Solid background layer */}
+        <div className="absolute inset-0 bg-transparent z-0"></div>
 
-      {/* Right side: Orbit animation */}
-      <div className="relative w-1/2 h-full flex items-center justify-start overflow-hidden">
+        {/* Content layer */}
+        <div className="relative z-10 flex items-center justify-between w-full h-full">
+          {/* Left side: Heading and Text */}
+          <div className="w-1/2 pl-9 pr-8">
+            <h1 className="text-4xl sm:text-6xl font-bold mb-4 text-white">
+              Build your brand
+            </h1>
+            <p className="text-gray-400 mb-6 max-w-lg">
+              DevSync AI seamlessly integrates with your development workflow. Connect your repositories and let every commit become engaging content.
+            </p>
+          </div>
+
+          {/* Right side: Orbit animation */}
+          <div className="relative w-1/2 h-full flex items-center justify-start overflow-hidden">
         <div className="relative w-[50rem] h-[50rem] translate-x-[50%] flex items-center justify-center">
           {/* Center Circle with DevPulse Logo */}
           <div className="w-28 h-28 rounded-full bg-white/5 backdrop-blur-sm shadow-2xl flex items-center justify-center border-2 border-white/20 relative z-20">
@@ -164,6 +169,7 @@ export default function StackFeatureSection() {
           }
         }
       `}</style>
+        </div>
       </section>
     </div>
   );
