@@ -9,7 +9,7 @@ const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 
-const prisma = new PrismaClient({
+export const prisma = new PrismaClient({
   adapter,
 });
 
@@ -157,4 +157,57 @@ export async function getStats() {
 export async function disconnectDatabase() {
   await prisma.$disconnect();
   await pool.end();
+}
+
+/**
+ * Update a post by ID
+ * @param {string} id - Post ID
+ * @param {object} data - Updated post data
+ * @returns {object} - Updated post
+ */
+export async function updatePost(id, data) {
+  const {
+    linkedinPost,
+    twitterPost,
+    instagramPost,
+    hashtags,
+  } = data;
+
+  try {
+    const post = await prisma.post.update({
+      where: { id },
+      data: {
+        ...(linkedinPost !== undefined && { linkedinPost }),
+        ...(twitterPost !== undefined && { twitterPost }),
+        ...(instagramPost !== undefined && { instagramPost }),
+        ...(hashtags !== undefined && { hashtags }),
+      },
+    });
+    return post;
+  } catch (error) {
+    console.error('❌ Error updating post:', error.message);
+    throw error;
+  }
+}
+
+/**
+ * Publish a post to specified platforms
+ * @param {string} id - Post ID
+ * @param {string[]} platforms - Array of platforms to publish to
+ * @returns {object} - Updated post
+ */
+export async function publishPost(id, platforms) {
+  try {
+    const post = await prisma.post.update({
+      where: { id },
+      data: {
+        isPublished: true,
+        platformPublished: platforms,
+      },
+    });
+    return post;
+  } catch (error) {
+    console.error('❌ Error publishing post:', error.message);
+    throw error;
+  }
 }

@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import webhookRoutes from './routes/webhook.js';
 import postRoutes from './routes/posts.js';
 import aiRoutes from './routes/ai.js';
+import authRoutes from './routes/auth.js';
 import { initDatabase } from './services/postService.js';
 
 // Load environment variables
@@ -26,6 +27,7 @@ app.get('/health', (req, res) => {
 });
 
 // Routes
+app.use('/auth', authRoutes);
 app.use('/webhook', webhookRoutes);
 app.use('/posts', postRoutes);
 app.use('/api/ai', aiRoutes);

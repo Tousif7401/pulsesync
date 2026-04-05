@@ -21,9 +21,11 @@
     "@google/generative-ai": "^0.21.0",
     "@prisma/adapter-pg": "^7.4.1",
     "@prisma/client": "^7.4.1",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.11.5",
     "postgres": "^3.4.8",
     "prisma": "^7.4.1"

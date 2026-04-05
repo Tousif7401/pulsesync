@@ -4,6 +4,9 @@ import {
   getSinglePost,
   getPostStats,
   removePost,
+  createPost,
+  updatePostById,
+  publishPostById,
 } from '../controllers/postController.js';
 
 const router = express.Router();
@@ -14,6 +17,12 @@ const router = express.Router();
  * Query params: limit, offset, unpublished
  */
 router.get('/', getAllPosts);
+
+/**
+ * POST /posts
+ * Create a new post
+ */
+router.post('/', createPost);
 
 /**
  * GET /posts/stats
@@ -32,5 +41,17 @@ router.get('/:id', getSinglePost);
  * Delete a post by ID
  */
 router.delete('/:id', removePost);
+
+/**
+ * PUT /posts/:id
+ * Update a post by ID
+ */
+router.put('/:id', updatePostById);
+
+/**
+ * POST /posts/:id/publish
+ * Publish a post to specified platforms
+ */
+router.post('/:id/publish', publishPostById);
 
 export default router;
