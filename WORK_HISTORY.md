@@ -136,3 +136,65 @@
 - Added detailed error handling for email delivery issues
 - Console logging for debugging email failures
 - Success/failure feedback for both user and admin emails
+
+## Database Migration & Backup (April 8, 2026)
+
+### Background
+Preparing to migrate PulseSync project from current laptop to new machine. Needed to ensure all database data is preserved.
+
+### Database Status Before Backup
+- Database name: `devsync`
+- PostgreSQL version: 16.12 (Homebrew)
+- User: `mohammedtousif`
+- Data:
+  - 6 users (with hashed passwords and timestamps)
+  - 4 posts (with generated content for LinkedIn, Twitter, Instagram)
+  - Prisma migration history
+
+### Backup Process
+1. **Initial attempts failed** due to:
+   - First attempt: `pg_dump` command not found in PATH
+   - Second attempt: Incorrect PostgreSQL user (`postgres` vs `mohammedtousif`)
+
+2. **Successful backup**:
+   - Found pg_dump at: `/opt/homebrew/Cellar/postgresql@16/16.12/bin/pg_dump`
+   - Used correct database credentials from `.env`
+   - Command: `pg_dump -U mohammedtousif devsync > pulsesync_backup_20260408_001800.sql`
+   - Backup file size: 7.2KB
+   - Full backup location: `/Users/mohammedtousif/Documents/PulseSync/pulsesync_backup_20260408_001800.sql`
+
+### Backup Contents
+- Complete database schema (users, posts, _prisma_migrations tables)
+- All user data with bcrypt-hashed passwords
+- All post data including generated social media content
+- Prisma migration history for version tracking
+- All indexes and constraints
+
+### Migration Checklist for New Laptop
+1. **Copy files to transfer:**
+   - `/backend/` folder (entire backend code)
+   - `/devsync-frontend/` folder (entire frontend code)
+   - `.env` file (contains DATABASE_URL and API keys)
+   - `pulsesync_backup_20260408_001800.sql` (database backup)
+
+2. **Setup on new laptop:**
+   ```bash
+   # Install dependencies
+   cd backend && npm install
+   cd ../devsync-frontend/frontend && npm install
+
+   # Create database
+   createdb -U mohammedtousif devsync
+
+   # Restore database backup
+   psql -U mohammedtousif devsync < pulsesync_backup_20260408_001800.sql
+
+   # Run Prisma migrations (ensures sync)
+   cd backend && npx prisma migrate deploy
+   ```
+
+### Note on Backup Files
+Three backup files exist in the directory, but only one contains actual data:
+- `pulsesync_backup_20260408_001648.sql` (37B) - Error: "command not found: pg_dump"
+- `pulsesync_backup_20260408_001719.sql` (115B) - Error: "role 'postgres' does not exist"
+- `pulsesync_backup_20260408_001800.sql` (7.2K) - **Successful full backup (USE THIS ONE)**
