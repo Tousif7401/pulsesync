@@ -198,3 +198,40 @@ Three backup files exist in the directory, but only one contains actual data:
 - `pulsesync_backup_20260408_001648.sql` (37B) - Error: "command not found: pg_dump"
 - `pulsesync_backup_20260408_001719.sql` (115B) - Error: "role 'postgres' does not exist"
 - `pulsesync_backup_20260408_001800.sql` (7.2K) - **Successful full backup (USE THIS ONE)**
+
+### .env File Configuration (Backend)
+
+**⚠️ SECURITY WARNING: Remove this section from WORK_HISTORY.md after migration is complete!**
+
+Create `/backend/.env` file on new laptop with the following configuration:
+
+```bash
+# Server
+PORT=4000
+NODE_ENV=development
+
+# Gemini AI
+GEMINI_API_KEY=AIzaSyDq4rlSXxMRfOsfo0ikuqQ8LUihO4WbN44
+
+# PostgreSQL
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=devsync
+DB_USER=mohammedtousif
+DB_PASSWORD=
+
+# GitHub Webhook Secret (optional)
+GITHUB_WEBHOOK_SECRET=
+
+# Prisma Database Connection
+DATABASE_URL="postgresql://mohammedtousif:@localhost:5432/devsync?schema=public"
+
+# JWT Secret (for authentication)
+JWT_SECRET=tX7A4UY3+fQfif3sC2QakX5LBeDHG/RD5JNw7MnT+aw=
+```
+
+**Notes:**
+- Update `DB_USER` to match your PostgreSQL username on new laptop
+- Update `DATABASE_URL` if your database configuration differs
+- Keep `JWT_SECRET` the same if you want existing auth tokens to work
+- `GEMINI_API_KEY` is included for reference - consider using a new key for production
